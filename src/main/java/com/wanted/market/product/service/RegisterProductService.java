@@ -17,6 +17,7 @@ public class RegisterProductService {
 
     public RegisterProductResponse register(RegisterProductCommand command) {
         Product product = command.toProduct();
+
         Product savedProduct = productRepository.save(product);
 
         return RegisterProductResponse.of(savedProduct);

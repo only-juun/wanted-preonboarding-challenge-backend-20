@@ -39,4 +39,8 @@ public class Product extends BaseTimeEntity {
                 .build();
     }
 
+    public void purchase() {
+        this.status = ProductStatus.RESERVED;
+    }
+
 }

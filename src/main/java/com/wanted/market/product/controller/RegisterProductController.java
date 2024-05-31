@@ -19,7 +19,7 @@ public class RegisterProductController {
     private final RegisterProductService service;
 
     @PostMapping("/products")
-    public ResponseEntity<BaseResponse<RegisterProductResponse>> register(
+    public ResponseEntity<BaseResponse<RegisterProductResponse>> registerProduct(
             @Valid @RequestBody RegisterProductCommand command
     ) {
         RegisterProductResponse response = service.register(command);

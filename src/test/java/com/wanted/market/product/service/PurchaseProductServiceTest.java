@@ -1,7 +1,6 @@
 package com.wanted.market.product.service;
 
-import com.wanted.market.product.controller.request.RegisterProductCommand;
-import com.wanted.market.product.controller.response.RegisterProductResponse;
+import com.wanted.market.product.controller.response.PurchaseProductResponse;
 import com.wanted.market.product.domain.Product;
 import com.wanted.market.product.domain.ProductStatus;
 import com.wanted.market.product.repository.ProductRepository;
@@ -17,42 +16,35 @@ import static org.assertj.core.api.Assertions.tuple;
 
 @SpringBootTest
 @Transactional
-class RegisterProductServiceTest {
+class PurchaseProductServiceTest {
 
     @Autowired
-    private RegisterProductService registerProductService;
+    private PurchaseProductService purchaseProductService;
 
     @Autowired
     private ProductRepository productRepository;
 
     @Test
-    void 신규_상품을_등록한다() {
+    void 상품을_구매한다() {
         // Given
         Product product = Product.builder()
-                .name("Test Product1")
+                .name("Test Product")
                 .price(1000L)
                 .build();
-        productRepository.save(product);
-
-        RegisterProductCommand command = RegisterProductCommand.builder()
-                .name("Test Product2")
-                .price(2000L)
-                .build();
+        Product savedProduct = productRepository.save(product);
 
         // When
-        RegisterProductResponse response = registerProductService.register(command);
+        PurchaseProductResponse response = purchaseProductService.purchase(savedProduct.getId());
 
         // Then
-        assertThat(response.getId()).isEqualTo(2L);
+        assertThat(response.getId()).isEqualTo(savedProduct.getId());
 
         List<Product> products = productRepository.findAll();
-        assertThat(products).hasSize(2)
+        assertThat(products).hasSize(1)
                 .extracting("name", "price", "status")
                 .containsExactlyInAnyOrder(
-                        tuple( "Test Product1", 1000L, ProductStatus.SALE),
-                        tuple( "Test Product2", 2000L, ProductStatus.SALE)
+                        tuple( "Test Product", 1000L, ProductStatus.RESERVED)
                 );
-     }
-
+    }
 
 }
