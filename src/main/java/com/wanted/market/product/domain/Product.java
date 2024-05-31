@@ -19,24 +19,23 @@ public class Product extends BaseTimeEntity {
     private String name;
 
     @Column(nullable = false)
-    private double price;
+    private long price;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private ProductStatus status;
 
     @Builder
-    private Product(String name, double price, ProductStatus status) {
+    private Product(String name, long price) {
         this.name = name;
         this.price = price;
-        this.status = status;
+        this.status = ProductStatus.SALE;
     }
 
-    public static Product of(String name, double price, ProductStatus status) {
+    public static Product of(String name, long price) {
         return Product.builder()
                 .name(name)
                 .price(price)
-                .status(status)
                 .build();
     }
 
