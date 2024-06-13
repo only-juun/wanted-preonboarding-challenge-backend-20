@@ -3,12 +3,13 @@ package com.wanted.market.product.controller.request;
 import com.wanted.market.product.domain.Product;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class RegisterProductCommand {
 
     @NotBlank(message = "이름을 입력해주세요.")
